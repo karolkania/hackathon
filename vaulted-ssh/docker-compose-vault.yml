@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  vault-srv:
+    image: vault:1.0.0
+    hostname: vault-srv
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=my_root_token_id
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    ports:
+      - "8200:8200"
+
+  vault-cli:
+    image: vault:1.0.0
+    hostname: vault-cli
+    command: "dumb-init /bin/sh -c 'echo sleeping...; while true; do sleep 1; done'"
+    environment:
+      - VAULT_TOKEN=my_root_token_id
+      - VAULT_ADDR=http://vault-srv:8200

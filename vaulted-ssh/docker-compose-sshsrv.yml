@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  ssh-srv:
+    build:
+      context: docker/alpine-ssh
+      dockerfile: Dockerfile
+    hostname: ssh-srv
+    environment:
+      - KEYPAIR_LOGIN=true
+    volumes:
+      - ${PWD}/docker/alpine-ssh/dot-ssh/authorized_keys:/root/.ssh/authorized_keys
+    ports:
+      - "10022:22"
